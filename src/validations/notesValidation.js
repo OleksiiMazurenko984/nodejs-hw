@@ -15,6 +15,16 @@ export const getAllNotesSchema = {
   }),
 };
 
+export const createNoteSchema = {
+  [Segments.BODY]: Joi.object({
+    title: Joi.string().min(1).required(),
+    content: Joi.string().allow(''),
+    tag: Joi.string()
+      .valid(...TAGS)
+      .default('Todo'),
+  }),
+};
+
 export const noteIdSchema = {
   [Segments.PARAMS]: Joi.object({
     studentId: Joi.string().custom(objectIdValidator).required(),
