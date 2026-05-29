@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import { createSession, setSessionCookies } from '../services/auth.js';
-import { User, Session } from '../models/user.js';
+import { User } from '../models/user.js';
+import { Session } from '../models/session.js';
 
 export const registerUser = async (req, res) => {
   const { email, password } = req.body;
@@ -51,7 +52,7 @@ export const refreshUserSession = async (req, res) => {
   const { sessionId, refreshToken } = req.cookies;
 
   if (!sessionId || !refreshToken) {
-    throw createHttpError(401, 'Missing session credentials');
+    throw createHttpError(401, 'Session not found');
   }
 
   const session = await Session.findOne({
